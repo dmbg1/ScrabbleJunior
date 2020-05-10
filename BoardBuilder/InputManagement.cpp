@@ -49,3 +49,57 @@ int numWords()
 	}
 	return num;
 }
+
+string keyInput()
+{
+	string key;
+
+	while (1) {
+		cout << endl << "Select a Key ";
+		cin >> key;
+
+		if (cin.fail() || cin.peek() != '\n') {
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << "Invalid input" << endl;
+			continue;
+		}
+		if (key.size() != 2) {	//key must be size 2
+			cout << "Incorrect size of key" << endl;
+			continue;
+		}
+		if (islower(key[0])) {	//key 1 must be uppercase
+			cout << "Key 1 must be uppercase" << endl;
+			continue;
+		}
+		if (isupper(key[1])) {	//key 2 must be lowercase
+			cout << "Key 2 must be lowercase" << endl;
+			continue;
+		}
+		break;
+	}
+	return key;
+}
+
+char orientationInput()
+{
+	char ori;
+
+	while (1) {
+		cout << endl << "Input V or H to choose orientation" << endl;
+		cin >> ori;
+
+		if (cin.fail() || cin.peek() != '\n') {
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << "Invalid input" << endl;
+			continue;
+		}
+		if (ori != 'V' && ori != 'H' && ori != 'v' && ori != 'h') {	//must be V/H/v/h
+			cout << "Input must be V or v or H or h" << endl;
+			continue;
+		}
+		break;
+	}
+	return ori;
+}

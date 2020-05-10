@@ -1,4 +1,5 @@
 #include "Board.h"
+#include "InputManagement.h"
 
 Board::Board(unsigned int s) {
 	size = s;
@@ -88,16 +89,37 @@ vector<string> Board::readFile(int wordsnum)
 	return words;
 }
 
-void Board::addWord(string key, string word, char orientation)
+void Board::addWord(string word, char orientation, int size)
 {
-	for (int i = 0; i < word.size(); i++) {
+		string key;
 		if (orientation == 'H' || orientation == 'h') {
-			m[key] = word[i];
-			key[1] = key[1] + 1;
+			while (1)
+			{
+				key = keyInput();
+				if (key[1] + word.size() > 'a' + size) {
+					cout << endl << "Choose another Key" << endl;
+					continue;
+				}
+				break;
+			}
+			for (int i = 0; i < word.size(); i++) {
+				m[key] = word[i];
+				key[1] = key[1] + 1;
+			}
 		}
 		else if (orientation == 'V' || orientation == 'v') {
-			m[key] = word[i];
-			key[0] = key[0] + 1;
+			while (1)
+			{
+				key = keyInput();
+				if (key[0] + word.size() > 'A' + size) {
+					cout << endl << "Choose another Key" << endl;
+					continue;
+				}
+				break;
+			}
+			for (int i = 0; i < word.size(); i++) {
+				m[key] = word[i];
+				key[0] = key[0] + 1;
+			}
 		}
-	}
 }
