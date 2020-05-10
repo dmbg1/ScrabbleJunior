@@ -25,3 +25,27 @@ void sizeInput(int& size) {
 		break;
 	}
 }
+
+int numWords()
+{
+
+	int num;
+
+	while (1) {
+		cout << endl << "Select a Number of words ";
+		cin >> num;
+
+		if (cin.fail() || cin.peek() != '\n') {
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << "Invalid input" << endl;
+			continue;
+		}
+		if (num < 5) {	//Avoiding few words
+			cout << "Number of words too low" << endl;
+			continue;
+		}
+		break;
+	}
+	return num;
+}

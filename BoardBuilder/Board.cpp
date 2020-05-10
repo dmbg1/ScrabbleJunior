@@ -51,6 +51,43 @@ void Board::showBoard() {
 	}
 }
 
+vector<string> Board::readFile(int wordsnum)
+{
+	int number_of_lines = 109581;
+	vector<string> words;
+
+	// a vector to hold all the indices: 0 to number_of_lines
+	vector<int> line_indices(number_of_lines);
+	iota(begin(line_indices), end(line_indices), 0); // init line_indices
+
+	// C++11 random library (should be preferred over rand()/srand())
+	random_device r;
+	seed_seq seed{ r(), r(), r(), r(), r(), r(), r(), r() };
+	mt19937 eng(seed);
+
+	// shuffle the line_indices:
+	shuffle(begin(line_indices), end(line_indices), eng);
+
+	int number_of_lines_to_select = wordsnum;
+	//assert(number_of_lines_to_select <= number_of_lines);
+
+	string line;
+	ifstream file("WORDS.TXT");
+
+	int line_number = 0;
+	while (getline(file, line)) {
+		for (int i = 0; i < number_of_lines_to_select; ++i) {
+			if (line_number == line_indices[i]) {
+				cout << line << '\n';
+				words.push_back(line);
+			}
+		}
+		++line_number;
+	}
+
+	return words;
+}
+
 void Board::addWord(string key, string word, char orientation)
 {
 	for (int i = 0; i < word.size(); i++) {
