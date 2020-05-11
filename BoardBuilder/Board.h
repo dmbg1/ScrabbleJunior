@@ -21,7 +21,7 @@ public:
 	unsigned int getSize() const;
 	map<string, char> getM() const;
 	void showBoard();
-	void addWord(string word, char orientation, int size);
+	void addWord(string word, char orientation);
 	vector<string> readFile(int wordsnum);
 
 private:

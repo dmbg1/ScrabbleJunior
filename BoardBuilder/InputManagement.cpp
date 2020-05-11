@@ -55,7 +55,7 @@ string keyInput()
 	string key;
 
 	while (1) {
-		cout << endl << "Select a Key ";
+		cout << endl << "Select a Key (0 to skip word): ";
 		cin >> key;
 
 		if (cin.fail() || cin.peek() != '\n') {
@@ -64,6 +64,8 @@ string keyInput()
 			cout << "Invalid input" << endl;
 			continue;
 		}
+		if (key == "0") break;
+
 		if (key.size() != 2) {	//key must be size 2
 			cout << "Incorrect size of key" << endl;
 			continue;
@@ -76,6 +78,10 @@ string keyInput()
 			cout << "Key 2 must be lowercase" << endl;
 			continue;
 		}
+		if (key[0] < 'A' || key[0] >'Z' || key[1] < 'a' || key[1] > 'z' ) {
+			cout << "Keys must be members of the alphabet" << endl;
+			continue;
+		}
 		break;
 	}
 	return key;
@@ -86,7 +92,7 @@ char orientationInput()
 	char ori;
 
 	while (1) {
-		cout << endl << "Input V or H to choose orientation" << endl;
+		cout << endl << "Input V or H to choose orientation (0 to skip word)" << endl;
 		cin >> ori;
 
 		if (cin.fail() || cin.peek() != '\n') {
@@ -95,6 +101,9 @@ char orientationInput()
 			cout << "Invalid input" << endl;
 			continue;
 		}
+		
+		if (ori == '0') break;
+
 		if (ori != 'V' && ori != 'H' && ori != 'v' && ori != 'h') {	//must be V/H/v/h
 			cout << "Input must be V or v or H or h" << endl;
 			continue;

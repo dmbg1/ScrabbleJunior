@@ -76,10 +76,12 @@ vector<string> Board::readFile(int wordsnum)
 	ifstream file("WORDS.TXT");
 
 	int line_number = 0;
+	
+	cout << endl << "Selected words: " << endl;
 	while (getline(file, line)) {
 		for (int i = 0; i < number_of_lines_to_select; ++i) {
 			if (line_number == line_indices[i]) {
-				cout << line << '\n';
+				cout << line << endl;
 				words.push_back(line);
 			}
 		}
@@ -89,22 +91,82 @@ vector<string> Board::readFile(int wordsnum)
 	return words;
 }
 
-void Board::addWord(string word, char orientation, int size)
+void Board::addWord(string word, char orientation)
 {
 		string key;
 		if (orientation == 'H' || orientation == 'h') {
 			while (1)
 			{
 				key = keyInput();
+				if(key == "0"){ return; }
 				if (key[1] + word.size() > 'a' + size) {
 					cout << endl << "Choose another Key" << endl;
 					continue;
 				}
 				break;
 			}
+
 			for (int i = 0; i < word.size(); i++) {
-				m[key] = word[i];
-				key[1] = key[1] + 1;
+				if (i == 0) {
+					key[0]--;
+					if (m[key] != NULL) {
+						cout << "Unavailable key. Choose another." << endl;
+						addWord(word, orientation);
+						return;
+					}
+					key[0]++;
+
+					key[0]++;
+					if (m[key] != NULL) {
+						cout << "Unavailable key. Choose another." << endl;
+						addWord(word, orientation);
+						return;
+					}
+					key[0]--;
+
+					key[1]++;
+					if (m[key] != NULL) {
+						if (m[key] == word[i + 1]) {
+							key[1]++;
+							if (m[key] != NULL) {
+								cout << "Unavailable key. Choose another." << endl;
+								addWord(word, orientation);
+								return;
+							}
+							key[1]--;
+						}
+						else {
+							cout << "Unavailable key. Choose another." << endl;
+							addWord(word, orientation);
+							return;
+						}
+					}
+					key[1]--;
+
+					key[1]--;
+					if (m[key] != NULL) {
+						cout << "Unavailable key. Choose another." << endl;
+						addWord(word, orientation);
+						return;
+					}
+					key[1]++;
+				}
+
+				if (m[key] == NULL)
+					m[key] = word[i];
+				else {
+					if (m[key] != word[i]) {
+						cout << "Unavailable key. Choose another." << endl;
+						addWord(word, orientation);
+						key[1]--;
+						while (m[key] != NULL) {
+							m[key] = NULL;
+							key[1]--;
+						}
+						return;
+					}
+				}
+				key[1]++;
 			}
 		}
 		else if (orientation == 'V' || orientation == 'v') {
@@ -117,8 +179,74 @@ void Board::addWord(string word, char orientation, int size)
 				}
 				break;
 			}
+
 			for (int i = 0; i < word.size(); i++) {
-				m[key] = word[i];
+				if (i == 0) {
+					key[0]--;
+					if (m[key] != NULL) {
+						cout << "Unavailable key. Choose another." << endl;
+						addWord(word, orientation);
+						return;
+					}
+					key[0]++;
+
+					key[0]++;
+					if (m[key] != NULL) {
+						if (m[key] == word[i + 1]) {
+							key[0]++;
+							if (m[key] != NULL) {
+								cout << "Unavailable key. Choose another." << endl;
+								addWord(word, orientation);
+								return;
+							}
+							key[0]--;
+						}
+						else {
+							cout << "Unavailable key. Choose another." << endl;
+							addWord(word, orientation);
+							return;
+						}
+					}
+					key[0]--;
+
+					key[1]++;
+					if (m[key] != NULL) {
+						cout << "Unavailable key. Choose another." << endl;
+						addWord(word, orientation);
+						return;
+					}
+					key[1]--;
+
+					key[1]--;
+					if (m[key] != NULL) {
+						cout << "Unavailable key. Choose another." << endl;
+						addWord(word, orientation);
+						return;
+					}
+					key[1]++;
+				}
+
+
+				if(m[key] == NULL)
+					m[key] = word[i];
+				else {
+					if (m[key] != word[i]) {
+						cout << "Unavailable key. Choose another." << endl;
+						key[0]--;
+						while (m[key] != NULL) {
+							m[key] = NULL;
+							key[0]--;
+						}
+						addWord(word, orientation);
+						return;
+					}
+					key[0] = key[0] + 1;
+					if (m[key] != NULL) {
+						cout << "Unavailable key. Choose another." << endl;
+						addWord(word, orientation);
+						return;
+					}
+				}
 				key[0] = key[0] + 1;
 			}
 		}

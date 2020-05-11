@@ -16,21 +16,21 @@ int main() {
 	clrscr();
 	board.showBoard();
 
-	board.addWord("arroz", 'V', size);
-
-	vector<string> words = board.readFile(num);
-
-	vector<string>::iterator it;
-
-
-	for (it = words.begin(); it < words.end(); it++)	// iterador que percorre vetor de palavras e preenche board
-	{
-		
-		ori = orientationInput();
-		board.addWord(*it, ori, size);
-	}
+	board.addWord("arroz", 'V');
 
 	Sleep(500);
 	clrscr();
 	board.showBoard();
+
+	vector<string> words = board.readFile(num);
+
+	for (int i = 0; i < words.size(); i++)	// iterador que percorre vetor de palavras e preenche board
+	{
+		cout << endl << words[i] << ":";
+		ori = orientationInput();
+		board.addWord(words[i], ori);
+		Sleep(500);
+		clrscr();
+		board.showBoard();
+	}
 }
