@@ -13,6 +13,15 @@ map<string, char> Board::getM() const {
 	return m;
 }
 
+vector<string> Board::getWords() {
+	return words;
+}
+
+vector<string> Board::getFileString()
+{
+	return fileString;
+}
+
 void Board::showBoard() {
 	char hChar = 'a', vChar = 'A';
 	ostringstream aux;
@@ -52,10 +61,9 @@ void Board::showBoard() {
 	}
 }
 
-vector<string> Board::readFile(int wordsnum)
+void Board::readFile(int wordsnum)
 {
 	int number_of_lines = 109581;
-	vector<string> words;
 
 	// a vector to hold all the indices: 0 to number_of_lines
 	vector<int> line_indices(number_of_lines);
@@ -87,78 +95,82 @@ vector<string> Board::readFile(int wordsnum)
 		}
 		++line_number;
 	}
-
-	return words;
 }
 
-void Board::addWord(string word, char orientation)
+void Board::addWord(string word)
 {
+	string file;
 	string key;
+	char ori;
 	while (1)
 	{
+		ori = orientationInput();
 		key = keyInput();
-		if (key == "0")
+		if (key == "0") {
+			cout << endl << "Word discarded" << endl;
 			return;
-		if (!isAddable(word, orientation, key)) {
+		}
+		if (ori == '0') {
+			cout << endl << "Word discarded" << endl;
+			return;
+		}
+		if (!isAddable(word, ori, key)) {
 			cout << endl << "Choose another Key" << endl;
 			continue;
 		}
 		break;
 	}
-	if (orientation == 'H' || orientation == 'h') {
+	if (ori == 'H' || ori == 'h') {
 		for (int i = 0; i < word.size(); i++) {
 			m[key] = word[i];
 			key[1]++;
 		}
 	}
-	else if (orientation == 'V' || orientation == 'v') {
+	else if (ori == 'V' || ori == 'v') {
 
 		for (int i = 0; i < word.size(); i++) {
 			m[key] = word[i];
 			key[0]++;
 		}
 	}
+	
+	char oriU = toupper(ori);
+	file = key + " " + oriU + " " + word;
+	fileString.push_back(file);
 }
 
 bool Board::isAddable(string word, char orientation, string key) {
 	if (orientation == 'V' || orientation == 'v') {
-		if (key[0] + word.size() > 'A' + size) 
-			return false;
+		if (key[0] + word.size() > 'A' + size)  return false;
 
 		for (int i = 0; i < word.size(); i++) {
 			if (m[key] == NULL) {
 				if (i == 0) {
 					key[0]--;
-					if (m[key] != NULL)
-						return false;
+					if (m[key] != NULL) return false;
 					key[0]++;
 				}
 
 				key[1]++;
-				if (m[key] != NULL) 
-					return false;
+				if (m[key] != NULL) return false;
 				key[1]--;
 
 				key[1]--;
-				if (m[key] != NULL) 
-					return false;
+				if (m[key] != NULL) return false;
 				key[1]++;
 			}
 			else {
-				if (m[key] != word[i])
-					return false;
+				if (m[key] != word[i]) return false;
 
 				key[0]++;
-				if (m[key] != NULL)
-					return false;
+				if (m[key] != NULL) return false;
 				key[0]--;
 			}
 			key[0]++;
 		}
 	}
 	else if (orientation == 'H' || orientation == 'h') {
-		if (key[1] + word.size() > 'a' + size)
-			return false;
+		if (key[1] + word.size() > 'a' + size) return false;
 
 		for (int i = 0; i < word.size(); i++) {
 			if (m[key] == NULL) {
@@ -169,28 +181,39 @@ bool Board::isAddable(string word, char orientation, string key) {
 				key[0]++;
 
 				key[0]++;
-				if (m[key] != NULL)
-					return false;
+				if (m[key] != NULL) return false;
 				key[0]--;
 
 				if (i == 0) {
 					key[1]--;
-					if (m[key] != NULL)
-						return false;
+					if (m[key] != NULL) return false;
 					key[1]++;
 				}
 			}
 			else {
-				if (m[key] != word[i])
-					return false;
+				if (m[key] != word[i]) return false;
 
 				key[1]++;
-				if (m[key] != NULL)
-					return false;
+				if (m[key] != NULL) return false;
 				key[1]--;
 			}
 			key[1]++;
 		}
 	}
 	return true;
+}
+
+void Board::WriteToFile() 
+{
+	string strsize = to_string(size) + " x " + to_string(size);
+	ofstream file;
+
+	file.open("BOARD.TXT");
+
+	file << strsize << endl;
+
+	for (vector<string>::iterator it = fileString.begin(); it < fileString.end(); it++)
+	{
+		file << *it << endl;
+	}
 }

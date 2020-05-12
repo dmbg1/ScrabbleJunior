@@ -7,8 +7,6 @@ using namespace std;
 
 int main() {
 	int size; //Largura e comprimento
-	string key;
-	char ori;
 	printf("BOARD BUILDER\n");
 	sizeInput(size);
 	int num = numWords();
@@ -16,24 +14,24 @@ int main() {
 	clrscr();
 	board.showBoard();
 
-	board.addWord("arroz", 'V');
+	board.addWord("arroz");
 
 	Sleep(500);
 	clrscr();
 	board.showBoard();
+	board.readFile(num);
 
-	vector<string> words = board.readFile(num);
+	vector<string> words = board.getWords();
 
 	for (int i = 0; i < words.size(); i++)	// iterador que percorre vetor de palavras e preenche board
 	{
 		cout << endl << words[i] << ":";
-		ori = orientationInput();
-		if (ori == '0')
-			continue;
 
-		board.addWord(words[i], ori);
+		board.addWord(words[i]);
 		Sleep(500);
 		clrscr();
 		board.showBoard();
 	}
+
+	board.WriteToFile();
 }

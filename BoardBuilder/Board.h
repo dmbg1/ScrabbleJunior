@@ -21,11 +21,16 @@ public:
 	unsigned int getSize() const;
 	map<string, char> getM() const;
 	void showBoard();
-	void addWord(string word, char orientation);
+	void addWord(string word);
 	bool isAddable(string word, char orientation, string key);
-	vector<string> readFile(int wordsnum);
+	void readFile(int wordsnum);
+	vector<string> getWords();
+	vector<string> getFileString();
+	void WriteToFile();
 
 private:
+	vector<string> words;
+	vector<string> fileString;
 	unsigned int size;
 	map<string, char> m;
 };
