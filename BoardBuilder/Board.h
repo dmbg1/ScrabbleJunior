@@ -22,6 +22,7 @@ public:
 	map<string, char> getM() const;
 	void showBoard();
 	void addWord(string word, char orientation);
+	bool isAddable(string word, char orientation, string key);
 	vector<string> readFile(int wordsnum);
 
 private:

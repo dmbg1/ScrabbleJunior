@@ -28,6 +28,9 @@ int main() {
 	{
 		cout << endl << words[i] << ":";
 		ori = orientationInput();
+		if (ori == '0')
+			continue;
+
 		board.addWord(words[i], ori);
 		Sleep(500);
 		clrscr();

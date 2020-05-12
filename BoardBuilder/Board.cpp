@@ -19,13 +19,13 @@ void Board::showBoard() {
 	cout << endl;
 	for (int i = 0; i < size + 1; i++) {
 		for (int j = 0; j < size + 1; j++) {
-			
+
 			if (j == 0) {
-				if(i==0)
+				if (i == 0)
 					cout << "   ";
-				else 
-					cout << " " << vChar<< " ";
-			
+				else
+					cout << " " << vChar << " ";
+
 				continue;
 			}
 			if (i == 0)
@@ -35,17 +35,17 @@ void Board::showBoard() {
 				aux << vChar << hChar;
 				setcolor(BLACK, WHITE);
 				cout << m[aux.str()];
-	
+
 				if (j == size)
 					continue;
 				else cout << " ";
-			
+
 			}
 
 			hChar++;
 		}
 		setcolor(WHITE, BLACK);
-		if(i != 0) 
+		if (i != 0)
 			vChar++;
 		cout << endl;
 		hChar = 'a';
@@ -76,7 +76,7 @@ vector<string> Board::readFile(int wordsnum)
 	ifstream file("WORDS.TXT");
 
 	int line_number = 0;
-	
+
 	cout << endl << "Selected words: " << endl;
 	while (getline(file, line)) {
 		for (int i = 0; i < number_of_lines_to_select; ++i) {
@@ -93,161 +93,104 @@ vector<string> Board::readFile(int wordsnum)
 
 void Board::addWord(string word, char orientation)
 {
-		string key;
-		if (orientation == 'H' || orientation == 'h') {
-			while (1)
-			{
-				key = keyInput();
-				if(key == "0"){ return; }
-				if (key[1] + word.size() > 'a' + size) {
-					cout << endl << "Choose another Key" << endl;
-					continue;
-				}
-				break;
-			}
+	string key;
+	while (1)
+	{
+		key = keyInput();
+		if (key == "0")
+			return;
+		if (!isAddable(word, orientation, key)) {
+			cout << endl << "Choose another Key" << endl;
+			continue;
+		}
+		break;
+	}
+	if (orientation == 'H' || orientation == 'h') {
+		for (int i = 0; i < word.size(); i++) {
+			m[key] = word[i];
+			key[1]++;
+		}
+	}
+	else if (orientation == 'V' || orientation == 'v') {
 
-			for (int i = 0; i < word.size(); i++) {
+		for (int i = 0; i < word.size(); i++) {
+			m[key] = word[i];
+			key[0]++;
+		}
+	}
+}
+
+bool Board::isAddable(string word, char orientation, string key) {
+	if (orientation == 'V' || orientation == 'v') {
+		if (key[0] + word.size() > 'A' + size) 
+			return false;
+
+		for (int i = 0; i < word.size(); i++) {
+			if (m[key] == NULL) {
 				if (i == 0) {
 					key[0]--;
-					if (m[key] != NULL) {
-						cout << "Unavailable key. Choose another." << endl;
-						addWord(word, orientation);
-						return;
-					}
+					if (m[key] != NULL)
+						return false;
 					key[0]++;
-
-					key[0]++;
-					if (m[key] != NULL) {
-						cout << "Unavailable key. Choose another." << endl;
-						addWord(word, orientation);
-						return;
-					}
-					key[0]--;
-
-					key[1]++;
-					if (m[key] != NULL) {
-						if (m[key] == word[i + 1]) {
-							key[1]++;
-							if (m[key] != NULL) {
-								cout << "Unavailable key. Choose another." << endl;
-								addWord(word, orientation);
-								return;
-							}
-							key[1]--;
-						}
-						else {
-							cout << "Unavailable key. Choose another." << endl;
-							addWord(word, orientation);
-							return;
-						}
-					}
-					key[1]--;
-
-					key[1]--;
-					if (m[key] != NULL) {
-						cout << "Unavailable key. Choose another." << endl;
-						addWord(word, orientation);
-						return;
-					}
-					key[1]++;
 				}
 
-				if (m[key] == NULL)
-					m[key] = word[i];
-				else {
-					if (m[key] != word[i]) {
-						cout << "Unavailable key. Choose another." << endl;
-						addWord(word, orientation);
-						key[1]--;
-						while (m[key] != NULL) {
-							m[key] = NULL;
-							key[1]--;
-						}
-						return;
-					}
-				}
+				key[1]++;
+				if (m[key] != NULL) 
+					return false;
+				key[1]--;
+
+				key[1]--;
+				if (m[key] != NULL) 
+					return false;
 				key[1]++;
 			}
-		}
-		else if (orientation == 'V' || orientation == 'v') {
-			while (1)
-			{
-				key = keyInput();
-				if (key[0] + word.size() > 'A' + size) {
-					cout << endl << "Choose another Key" << endl;
-					continue;
-				}
-				break;
-			}
+			else {
+				if (m[key] != word[i])
+					return false;
 
-			for (int i = 0; i < word.size(); i++) {
+				key[0]++;
+				if (m[key] != NULL)
+					return false;
+				key[0]--;
+			}
+			key[0]++;
+		}
+	}
+	else if (orientation == 'H' || orientation == 'h') {
+		if (key[1] + word.size() > 'a' + size)
+			return false;
+
+		for (int i = 0; i < word.size(); i++) {
+			if (m[key] == NULL) {
+				key[0]--;
+				if (m[key] != NULL) {
+					return false;
+				}
+				key[0]++;
+
+				key[0]++;
+				if (m[key] != NULL)
+					return false;
+				key[0]--;
+
 				if (i == 0) {
-					key[0]--;
-					if (m[key] != NULL) {
-						cout << "Unavailable key. Choose another." << endl;
-						addWord(word, orientation);
-						return;
-					}
-					key[0]++;
-
-					key[0]++;
-					if (m[key] != NULL) {
-						if (m[key] == word[i + 1]) {
-							key[0]++;
-							if (m[key] != NULL) {
-								cout << "Unavailable key. Choose another." << endl;
-								addWord(word, orientation);
-								return;
-							}
-							key[0]--;
-						}
-						else {
-							cout << "Unavailable key. Choose another." << endl;
-							addWord(word, orientation);
-							return;
-						}
-					}
-					key[0]--;
-
-					key[1]++;
-					if (m[key] != NULL) {
-						cout << "Unavailable key. Choose another." << endl;
-						addWord(word, orientation);
-						return;
-					}
 					key[1]--;
-
-					key[1]--;
-					if (m[key] != NULL) {
-						cout << "Unavailable key. Choose another." << endl;
-						addWord(word, orientation);
-						return;
-					}
+					if (m[key] != NULL)
+						return false;
 					key[1]++;
 				}
-
-
-				if(m[key] == NULL)
-					m[key] = word[i];
-				else {
-					if (m[key] != word[i]) {
-						cout << "Unavailable key. Choose another." << endl;
-						key[0]--;
-						while (m[key] != NULL) {
-							m[key] = NULL;
-							key[0]--;
-						}
-						addWord(word, orientation);
-						return;
-					}
-					key[0] = key[0] + 1;
-					if (m[key] != NULL) {
-						cout << "Unavailable key. Choose another." << endl;
-						addWord(word, orientation);
-						return;
-					}
-				}
-				key[0] = key[0] + 1;
 			}
+			else {
+				if (m[key] != word[i])
+					return false;
+
+				key[1]++;
+				if (m[key] != NULL)
+					return false;
+				key[1]--;
+			}
+			key[1]++;
 		}
+	}
+	return true;
 }
