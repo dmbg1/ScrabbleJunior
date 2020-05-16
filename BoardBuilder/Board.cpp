@@ -3,9 +3,10 @@
 
 Board::Board() : size(20) {}
 
-void Board::setSize(unsigned int s) {
+Board::Board(unsigned int s) {
 	size = s;
 }
+
 
 unsigned int Board::getSize() const {
 	return size;
@@ -123,6 +124,7 @@ void Board::addWord(string word, char ori, string key)
 		}
 		if (!isAddable(word, ori, key)) {
 			cout << endl << "Choose another Key" << endl;
+			key = keyInput();
 			continue;
 		}
 		break;
@@ -142,7 +144,7 @@ void Board::addWord(string word, char ori, string key)
 		}
 		key[0] = key[0] - word.size();
 	}
-	
+
 	char oriU = toupper(ori);
 	file = key + " " + oriU + " " + word;
 	fileString.push_back(file);
@@ -167,9 +169,16 @@ bool Board::isAddable(string word, char orientation, string key) {
 				key[1]--;
 				if (m[key] != NULL) return false;
 				key[1]++;
+				if (i == word.size()) {
+					key[0]++;
+					if (m[key] != NULL) {
+						return false;
+					}
+					key[0]--;
+				}
 			}
 			else {
-				if (m[key] != word[i]) return false;
+				if (m[key] != toupper(word[i])) return false;
 
 				key[0]++;
 				if (m[key] != NULL) return false;
@@ -198,9 +207,17 @@ bool Board::isAddable(string word, char orientation, string key) {
 					if (m[key] != NULL) return false;
 					key[1]++;
 				}
+
+				if (i == word.size() - 1) {
+					key[1]++;
+					if (m[key] != NULL) {
+						return false;
+					}
+					key[1]--;
+				}
 			}
 			else {
-				if (m[key] != word[i]) return false;
+				if (m[key] != toupper(word[i])) return false;
 
 				key[1]++;
 				if (m[key] != NULL) return false;
@@ -212,7 +229,7 @@ bool Board::isAddable(string word, char orientation, string key) {
 	return true;
 }
 
-void Board::WriteToFile() 
+void Board::WriteToFile()
 {
 	string strsize = to_string(size) + " x " + to_string(size);
 	ofstream file;
@@ -238,7 +255,7 @@ void Board::readBoardFile() {
 	string filename;
 	string line;
 	string coord;
-	string size;
+	string ssize;
 	int siz;
 	char ori;
 	string word;
@@ -251,7 +268,7 @@ void Board::readBoardFile() {
 		cin >> filename;
 
 		if (filename == "0") exit(0);
-		
+
 		ifstream file(filename);
 
 		if (!file)
@@ -261,7 +278,7 @@ void Board::readBoardFile() {
 		}
 
 		getline(file, line);
-		
+
 		if (!isdigit(line[0]) || !isdigit(line[1]))
 		{
 			cout << "The file is corrupted" << endl;
@@ -269,9 +286,9 @@ void Board::readBoardFile() {
 		}
 		a = line[0];
 		b = line[1];
-		size = a + b;
+		ssize = a + b;
 
-		setSize(stoi(size));
+		ssize = stoi(ssize);
 
 		while (getline(file, line)) {
 
@@ -287,7 +304,7 @@ void Board::readBoardFile() {
 			ori = line[3];
 			word = "";
 			for (string::iterator it = line.begin() + 5; it != line.end(); it++) {
-				
+
 				word = word + *it;
 			}
 

@@ -18,7 +18,7 @@ class Board
 {
 public:
 	Board();
-	void setSize(unsigned int s);
+	Board(unsigned int s);
 	unsigned int getSize() const;
 	map<string, char> getM() const;
 	void showBoard();
