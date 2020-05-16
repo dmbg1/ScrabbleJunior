@@ -1,10 +1,14 @@
 #include "Board.h"
 #include "InputManagement.h"
 
-Board::Board() : size(20) {}
 
 Board::Board(unsigned int s) {
 	size = s;
+}
+
+vector<string> Board::getWords()
+{
+	return words;
 }
 
 
@@ -14,23 +18,6 @@ unsigned int Board::getSize() const {
 
 map<string, char> Board::getM() const {
 	return m;
-}
-
-vector<string> Board::getWords() {
-	return words;
-}
-
-vector<char> Board::getOris() {
-	return oris;
-}
-
-vector<string> Board::getCoords() {
-	return coords;
-}
-
-vector<string> Board::getFileString()
-{
-	return fileString;
 }
 
 void Board::showBoard() {
@@ -112,23 +99,12 @@ void Board::addWord(string word, char ori, string key)
 {
 	string file;
 
-	while (1)
+	while (!isAddable(word, ori, key))
 	{
-		if (key == "0") {
-			cout << endl << "Word discarded" << endl;
-			return;
-		}
-		if (ori == '0') {
-			cout << endl << "Word discarded" << endl;
-			return;
-		}
-		if (!isAddable(word, ori, key)) {
-			cout << endl << "Choose another Key" << endl;
-			key = keyInput();
-			continue;
-		}
-		break;
+		cout << endl << "Choose another Key" << endl;
+		if ((key = keyInput()) == "0") return;
 	}
+
 	if (ori == 'H' || ori == 'h') {
 		for (int i = 0; i < word.size(); i++) {
 			m[key] = toupper(word[i]);
@@ -238,83 +214,14 @@ void Board::WriteToFile()
 	cout << endl << "Chose a name to the File:" << endl;
 	cin >> filename;
 
+	cin.ignore(1);
+
 	file.open(filename);
 
 	file << strsize << endl;
 
-	for (vector<string>::iterator it = fileString.begin(); it < fileString.end(); it++)
-	{
-		file << *it << endl;
-	}
+	for (int i = 0; i < fileString.size(); i++)
+		file << fileString[i] << endl;
 
 	file.close();
-}
-
-void Board::readBoardFile() {
-
-	string filename;
-	string line;
-	string coord;
-	string ssize;
-	int siz;
-	char ori;
-	string word;
-	string a;
-	string b;
-
-	while (1) {
-
-		cout << endl << "Name of Board File (type 0 to exit program): " << endl;
-		cin >> filename;
-
-		if (filename == "0") exit(0);
-
-		ifstream file(filename);
-
-		if (!file)
-		{
-			cout << "The file doesn't exist" << endl;
-			continue;
-		}
-
-		getline(file, line);
-
-		if (!isdigit(line[0]) || !isdigit(line[1]))
-		{
-			cout << "The file is corrupted" << endl;
-			continue;
-		}
-		a = line[0];
-		b = line[1];
-		ssize = a + b;
-
-		ssize = stoi(ssize);
-
-		while (getline(file, line)) {
-
-			if (!isupper(line[0]) || !islower(line[1]) || !isspace(line[2]) || !isalpha(line[3]) || !isspace(line[4]) || !isalpha(line[5]))
-			{
-				cout << "The file is corrupted" << endl;
-				continue;
-			}
-
-			a = line[0];
-			b = line[1];
-			coord = a + b;
-			ori = line[3];
-			word = "";
-			for (string::iterator it = line.begin() + 5; it != line.end(); it++) {
-
-				word = word + *it;
-			}
-
-			coords.push_back(coord);
-			oris.push_back(ori);
-			words.push_back(word);
-
-		}
-
-		file.close();
-		break;
-	}
 }

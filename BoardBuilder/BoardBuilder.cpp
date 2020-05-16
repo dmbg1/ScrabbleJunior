@@ -6,7 +6,6 @@
 using namespace std;
 
 int main() {
-	Board board;
 	int op;
 	int size; //Largura e comprimento
 
@@ -30,7 +29,7 @@ int main() {
 			sizeInput(size);
 			int num = numWords();
 
-			board = Board(size);
+			Board board = Board(size);
 
 			Sleep(500);
 			clrscr();
@@ -40,12 +39,18 @@ int main() {
 
 			vector<string> words = board.getWords();
 
-			for (int i = 0; i < words.size(); i++)	
+			for (int i = 0; i < words.size(); i++)
 			{
 				cout << endl << words[i] << ":";
 
-				ori = orientationInput();
-				key = keyInput();
+				if ((ori = orientationInput()) == '0') {
+					cout << endl << "Word discarded" << endl;
+					continue;
+				}
+				if ((key = keyInput()) == "0") {
+					cout << endl << "Word discarded" << endl;
+					continue;
+				}
 
 				board.addWord(words[i], ori, key);
 				Sleep(500);
@@ -53,33 +58,15 @@ int main() {
 				board.showBoard();
 			}
 
+			if (key == "0" || ori == '0') {
+				Sleep(500);
+				clrscr();
+			}
+
 			board.WriteToFile();
 
 			clrscr();
 		}
-
-		if (op == 2) {
-
-			board.readBoardFile();
-
-			vector<string> gameWords = board.getWords();
-			vector<string> gameCoords = board.getCoords();
-			vector<char> gameOris = board.getOris();
-
-			for (int i = 0; i < gameWords.size(); i++)
-			{
-				Sleep(500);
-				clrscr();
-				board.showBoard();
-				board.addWord(gameWords[i], gameOris[i], gameCoords[i]);
-			}
-			int a;
-			while (1) {
-				cout << endl << "0 to return" << endl;
-				cin >> a;
-				if (a != 0) continue;
-				break;
-			}
-		}
 	} while (op != 0);
+	return 0;
 }

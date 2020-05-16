@@ -18,7 +18,7 @@ void sizeInput(int& size) {
 			cout << "Max board size = 20" << endl;
 			continue;
 		}
-		if (size < 11) {	//Avoiding too low sized boards (with less than 101 letter positions)
+		if (size < 10) {	//Avoiding too low sized boards 
 			cout << "Board size too low" << endl;
 			continue;
 		}
