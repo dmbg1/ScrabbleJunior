@@ -82,6 +82,11 @@ map<string, char> Board::getM() const
 	return m;
 }
 
+vector<Player> Board::getPlayers() const
+{
+	return players;
+}
+
 void Board::mapBoard(vector<string> keys)
 {
 	for (int i = 0; i < words.size(); i++) {
@@ -109,7 +114,13 @@ void Board::mapBoard(vector<string> keys)
 	}
 }
 
-void Board::showBoard() {
+void Board::showPlayersTiles() const
+{
+	for (Player player : players)
+		player.showTiles();
+}
+
+void Board::showBoard(){
 	char hChar = 'a', vChar = 'A';
 	ostringstream aux;
 	cout << endl;
@@ -160,6 +171,15 @@ void Board::showBoard() {
 		cout << endl;
 		hChar = 'a';
 	}
+}
+
+//Function checks if there's still at least 1 tile to be played
+bool Board::playersHavePieces() const
+{
+	for (Player player : players) 
+		if (player.getTiles().size() != 0)
+			return 1;
+	return 0;
 }
 
 void Board::setPlayers(vector<Player> p)

@@ -16,7 +16,7 @@ int main() {
 	clrscr();
 	board.showBoard();
 	
-	Pool pool(board);
+	Pool pool(board.getChars());
 	playerNumberInput(nPlayers);
 
 	Sleep(500);
@@ -27,9 +27,15 @@ int main() {
 	
 	for (int i = 1; i <= nPlayers; i++) {
 		players.push_back(Player(i));
-		pool.giveInitialPieces(players[i - 1]);
-		players[i - 1].showTiles();
+		players[i - 1].drawTilesFromPool(pool, 7);
 	}
+
 	board.setPlayers(players);
+	board.showPlayersTiles();
+
+	/*while (board.playersHavePieces()) {
+
+	}*/
+
 	return 0;
 }

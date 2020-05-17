@@ -1,19 +1,20 @@
 #include "Pool.h"
 
-
-Pool::Pool(Board b)
+Pool::Pool(vector<char> tiles)
 {
-	pool_tiles = b.getChars();
+	pool_tiles = tiles;
 }
 
-void Pool::giveInitialPieces(Player &player)
+vector<char> Pool::getPoolTiles() const
 {
-	int idx;  //index to be removed from the pool tiles and added to the player tiles
-	srand(time(NULL));
+	return pool_tiles;
+}
 
-	for (int i = 0; i < 7; i++) {
-		idx = rand() % pool_tiles.size();
-		player.addTile(pool_tiles[idx]);
-		pool_tiles.erase(pool_tiles.begin() + idx);
-	}
+void Pool::addTileToPool(char c)
+{
+	pool_tiles.push_back(c);
+}
+
+void Pool::removeTileFromPool(int idx) {
+	pool_tiles.erase(pool_tiles.begin() + idx);
 }

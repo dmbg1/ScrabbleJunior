@@ -17,13 +17,16 @@ public:
 	vector<char> getChars() const;
 	vector<string> getCoords() const;
 	map <string, char> getM() const;
-	void mapBoard(vector<string> keys);
-	void showBoard();
+	vector<Player> getPlayers() const;
 	void setPlayers(vector<Player> p);
+	void mapBoard(vector<string> keys);
+	void showPlayersTiles() const;
+	void showBoard();
+	bool playersHavePieces() const;
 private:
 	int size;
 	vector<string> words;
-	vector<string> coords;
+	vector<string> coords; //will be useful for keeping track of the moves players can make
 	vector<char> oris;
 	vector<char> chars; //contains the chars on the board (useful to pass to the pool)
 	map<string, char> m;
