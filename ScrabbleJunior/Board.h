@@ -14,6 +14,7 @@ class Board
 public:
 	void readBoardFile();
 	vector<string> getWords();
+	map <string, char> getM();
 	void mapBoard();
 	void showBoard();
 private:

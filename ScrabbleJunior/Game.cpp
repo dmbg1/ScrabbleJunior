@@ -1,13 +1,23 @@
 #include <iostream>
 #include "Player.h"
 #include "InputManagement.h"
+#include "Board.h"
+#include "Pool.h"
 
 using namespace std;
 
 int main() {
 	int nPlayers;
+	vector <Player> players;
+	Board board;
+
+	board.readBoardFile();
+	Sleep(500);
+	clrscr();
+	board.showBoard();
+	
+	Pool pool(board);
 	playerNumberInput(nPlayers);
-	vector<Player> players;
 	
 	cout << nPlayers << endl;
 	for (int i = 1; i <= nPlayers; i++)

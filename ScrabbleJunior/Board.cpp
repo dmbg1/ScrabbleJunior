@@ -62,6 +62,7 @@ void Board::readBoardFile() {
 			words.push_back(word);
 		}
 		file.close();
+		mapBoard();
 		break;
 	}
 }
@@ -69,6 +70,11 @@ void Board::readBoardFile() {
 vector<string> Board::getWords()
 {
 	return words;
+}
+
+map<string, char> Board::getM()
+{
+	return m;
 }
 
 void Board::mapBoard()
