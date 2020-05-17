@@ -19,6 +19,7 @@ public:
 	vector<char> getTiles() const;
 	map<string, char> getTilesPutInBoard() const;
 	void drawTilesFromPool(Pool& pool, int n);
+	void setTilesInBoard(string key, char c);
 private:
 	vector<char> tiles;
 	map<string, char> tilesInBoard; //Contains the tiles put in the board

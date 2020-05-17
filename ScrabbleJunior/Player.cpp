@@ -60,7 +60,7 @@ void Player::showTiles()
 		setcolor(YELLOW);
 
 	for (int i = 0; i < tiles.size(); i++)
-		cout << tiles[i] << "; ";
+		cout << i + 1 << "-" << tiles[i] << "; ";
 
 	setcolor(WHITE);
 
@@ -94,4 +94,9 @@ void Player::drawTilesFromPool(Pool &pool, int n)
 		addTile(pool.getPoolTiles()[idx]);
 		pool.removeTileFromPool(idx);
 	}
+}
+
+void Player::setTilesInBoard(string key, char c)
+{
+	tilesInBoard[key] = c;
 }
