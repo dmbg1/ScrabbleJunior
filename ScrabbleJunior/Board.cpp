@@ -256,7 +256,7 @@ void Board::gameTurn(int playerId, Pool &p)
 		else if (j == 1 && p.getPoolTiles().size() != 0) players[playerId - 1].drawTilesFromPool(p, 1);
 	}
 	else {
-		if (players[playerId - 1].getTiles.size() == 0)
+		if (players[playerId - 1].getTiles().size() == 0)
 			return;
 		if (p.getPoolTiles().size() != 0)
 			players[playerId - 1].reshufleTiles(p);
