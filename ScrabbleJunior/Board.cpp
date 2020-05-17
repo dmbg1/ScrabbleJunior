@@ -251,15 +251,13 @@ void Board::gameTurn(int playerId, Pool &p)
 			showBoard();
 			showPlayersTiles();
 			cout << endl << "Tiles in pool: " << p.getPoolTiles().size() << endl;
-			for (char c : p.getPoolTiles())
-				cout << c << endl;
 		}
 		if (j == 2 && p.getPoolTiles().size() != 0) players[playerId - 1].drawTilesFromPool(p, 2);
 		else if (j == 1 && p.getPoolTiles().size() != 0) players[playerId - 1].drawTilesFromPool(p, 1);
 	}
 	else {
 		if (players[playerId - 1].getTiles.size() == 0)
-			break;
+			return;
 		if (p.getPoolTiles().size() != 0)
 			players[playerId - 1].reshufleTiles(p);
 		else {

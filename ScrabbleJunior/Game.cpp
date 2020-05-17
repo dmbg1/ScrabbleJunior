@@ -34,8 +34,6 @@ int main() {
 	board.showPlayersTiles();
 	cout << endl << "Tiles in pool: " << pool.getPoolTiles().size() << endl;
 
-	for (char c : pool.getPoolTiles())
-		cout << c << endl;
 	//GAME START
 
 
@@ -49,8 +47,6 @@ int main() {
 			board.showBoard();
 			board.showPlayersTiles();
 			cout << endl << "Tiles in pool: " << pool.getPoolTiles().size() << endl;
-			for (char c : pool.getPoolTiles())
-				cout << c << endl;
 		}
 	}
 
