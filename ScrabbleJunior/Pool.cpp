@@ -6,7 +6,7 @@ Pool::Pool(Board b)
 	pool_tiles = b.getChars();
 }
 
-void Pool::givePieces(Player &player)
+void Pool::giveInitialPieces(Player &player)
 {
 	int idx;  //index to be removed from the pool tiles and added to the player tiles
 	srand(time(NULL));

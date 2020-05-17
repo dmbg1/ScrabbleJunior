@@ -18,12 +18,18 @@ int main() {
 	
 	Pool pool(board);
 	playerNumberInput(nPlayers);
+
+	Sleep(500);
+	clrscr();
+
+	board.showBoard();
+	cout << endl;
 	
 	for (int i = 1; i <= nPlayers; i++) {
 		players.push_back(Player(i));
-		pool.givePieces(players[i - 1]);
+		pool.giveInitialPieces(players[i - 1]);
 		players[i - 1].showTiles();
 	}
-
+	board.setPlayers(players);
 	return 0;
 }

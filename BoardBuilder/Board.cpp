@@ -6,7 +6,7 @@ Board::Board(unsigned int s) {
 	size = s;
 }
 
-vector<string> Board::getWords()
+vector<string> Board::getWords() const
 {
 	return words;
 }

@@ -67,17 +67,17 @@ void Board::readBoardFile() {
 	}
 }
 
-vector<char> Board::getChars()
+vector<char> Board::getChars() const
 {
 	return chars;
 }
 
-vector<string> Board::getCoords()
+vector<string> Board::getCoords() const
 {
 	return coords;
 }
 
-map<string, char> Board::getM()
+map<string, char> Board::getM() const
 {
 	return m;
 }
@@ -130,6 +130,20 @@ void Board::showBoard() {
 				aux.str(string());
 				aux << vChar << hChar;
 				setcolor(BLACK, WHITE);
+
+				for (Player player : players) {	//checking if any player tiles are in the board (if so show color of the player's tile)
+					if (player.getTilesPutInBoard()[aux.str()] != NULL) {
+						if (player.getId() == 1)
+							setcolor(BLUE, WHITE);
+						else if (player.getId() == 2)
+							setcolor(RED, WHITE);
+						else if (player.getId() == 3)
+							setcolor(GREEN, WHITE);
+						else if (player.getId() == 4)
+							setcolor(YELLOW, WHITE);
+					}
+				}
+
 				cout << m[aux.str()];
 
 				if (j == size)
@@ -146,4 +160,9 @@ void Board::showBoard() {
 		cout << endl;
 		hChar = 'a';
 	}
+}
+
+void Board::setPlayers(vector<Player> p)
+{
+	players = p;
 }

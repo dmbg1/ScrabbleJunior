@@ -17,6 +17,12 @@ void clrscr(void)
     SetConsoleCursorPosition(hCon, coordScreen);
 }
 
+void setcolor(unsigned int color)
+{
+    HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hcon, color);
+}
+
 void setcolor(unsigned int color, unsigned int background_color)
 {
     HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);

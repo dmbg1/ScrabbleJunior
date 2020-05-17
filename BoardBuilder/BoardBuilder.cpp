@@ -17,7 +17,7 @@ int main() {
 		if (op == 1) {
 
 			string key;
-			char ori;
+			char ori = '0';
 
 			Sleep(500);
 			clrscr();
