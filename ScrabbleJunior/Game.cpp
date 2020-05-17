@@ -32,67 +32,49 @@ int main() {
 
 	board.setPlayers(players);
 	board.showPlayersTiles();
+	cout << endl << "Tiles in pool: " << pool.getPoolTiles().size() << endl;
 
-
+	for (char c : pool.getPoolTiles())
+		cout << c << endl;
 	//GAME START
 
-	string key;
-	int tile;
-	int playerNum = 0;
-	char playerTile;
 
-	while (pool.getPoolTiles().size() != 0)
+	while (board.playersHavePieces())
 	{
-		int jogadas = 0;
-		for (int i = 0; i < 2; i++)
+		for (Player player : board.getPlayers())
 		{
-			cout << endl << "Player " << playerNum + 1 << " turn. Select a number of a tile: (0 to skip)" << endl;
-			cin >> tile;
-			cout << endl << "Select a Coordenate to place the tile: " << endl;
-			cin >> key;
-
-			if (tile != 0 || key != "0")
-			{
-				/*if (!isdigit(tile))
-				{
-					cout << endl << "Jogada Invalida" << endl;
-					continue;
-				}*/
-				playerTile = board.getPlayers()[playerNum].getTiles()[tile - 1];
-				//cout << endl << playerTile << endl;
-				//cout << endl << board.getM()[key] << endl;
-
-				if (playerTile != board.getM()[key])
-				{
-					cout << endl << "Jogada Invalida" << endl;
-					continue;
-				}
-
-				//cout << endl << board.getM()[key] << endl;
-				board.getPlayers()[playerNum].setTilesInBoard(key, playerTile);
-				cout << endl << "000000000" << endl << board.getPlayers()[playerNum].getTilesPutInBoard()[key] << endl;
-				jogadas++;
-			}
+			board.gameTurn(player.getId(), pool);
+			Sleep(500);
+			clrscr();
+			board.showBoard();
+			board.showPlayersTiles();
+			cout << endl << "Tiles in pool: " << pool.getPoolTiles().size() << endl;
+			for (char c : pool.getPoolTiles())
+				cout << c << endl;
 		}
-
-		board.getPlayers()[playerNum].drawTilesFromPool(pool, jogadas);
-
-		playerNum++;
-		if (playerNum > 3) playerNum = 0;
-
-		Sleep(500);
-		clrscr();
-		board.showBoard();
-		board.showPlayersTiles();
 	}
 
+	Sleep(500);
+	clrscr();
+	board.showBoard();
 
-		
-
-
-	/*while (board.playersHavePieces()) {
-
-	}*/
+	vector<int> winners; //Contains ids of winners/winner;
+	int maxScore = -1;
+	int maxScorePlayerId = -1;
+	for (Player player : board.getPlayers()) {
+		if (player.getScore() > maxScore) {
+			maxScore = player.getScore();
+			maxScorePlayerId = player.getId();
+			winners.clear();
+			winners.push_back(player.getId());
+		}
+		else if (player.getScore() == maxScore)
+			winners.push_back(player.getId());
+	}
+	if (winners.size() > 1)
+		cout << "Winners with " << maxScore << " points:" << endl;
+	for (int winner : winners)
+		cout << "Player " << board.getPlayers()[winner - 1].getId() << endl;
 
 	return 0;
 }

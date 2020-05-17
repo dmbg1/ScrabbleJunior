@@ -14,7 +14,7 @@ void Board::readBoardFile() {
 
 	while (1) {
 
-		cout << endl << "Name of Board File (type 0 to exit program): " << endl;
+		cout << "Name of Board File (type 0 to exit program): " << endl;
 		cin >> filename;
 
 		if (filename == "0") exit(0);
@@ -120,7 +120,7 @@ void Board::showPlayersTiles() const
 		player.showTiles();
 }
 
-void Board::showBoard(){
+void Board::showBoard() {
 	char hChar = 'a', vChar = 'A';
 	ostringstream aux;
 	cout << endl;
@@ -176,9 +176,108 @@ void Board::showBoard(){
 //Function checks if there's still at least 1 tile to be played
 bool Board::playersHavePieces() const
 {
-	for (Player player : players) 
+	for (Player player : players)
 		if (player.getTiles().size() != 0)
 			return 1;
+	return 0;
+}
+
+void Board::gameTurn(int playerId, Pool &p)
+{
+	string msg;
+	int tile;
+	string key;
+
+	if (canPlay(players[playerId - 1])) {
+		int j = 0;
+		while (j < 2) {
+			if (!canPlay(players[playerId - 1])) break;
+			msg = "\nPlayer ";
+			msg += to_string(playerId);
+			if (j == 0) {
+				msg += " turn. Select a number of a tile : ";
+			}
+			else {
+				msg += " turn. Select another tile : ";
+			}
+			cin.ignore(1);
+			tile = readNumber(msg);
+			key = coordInput();
+
+			if (key == "0") continue;
+
+			char playerTile = players[playerId - 1].getTiles()[tile - 1];
+
+			if (playerTile != m[key])
+			{
+				cout << endl << "Invalid play" << endl;
+				continue;
+			}
+			else {
+				int validPlay = 0;
+				int i = 0;
+				for (string coord : coords) {
+					if (key == coord) {
+						validPlay = 1;
+						players[playerId - 1].addTilesInBoard(key, playerTile);
+						if (oris[i] == 'H') {
+							coords[i][1]++;
+							while(players[playerId -1].getTilesPutInBoard()[coords[i]] != NULL)
+								coords[i][1]++;
+						}
+						
+						else if (oris[i] == 'V') {
+							coords[i][0]++;
+							while (players[playerId - 1].getTilesPutInBoard()[coords[i]] != NULL)
+								coords[i][0]++;
+						}
+					
+						if (m[coords[i]] == NULL)
+							players[playerId - 1].incrementScore();
+					}
+					i++;
+				}
+				if (!validPlay)
+				{
+					cout << endl << "Invalid play" << endl;
+					continue;
+				}
+			}
+			j++;
+
+			players[playerId - 1].eraseTile(tile - 1);
+			Sleep(500);
+			clrscr();
+			showBoard();
+			showPlayersTiles();
+			cout << endl << "Tiles in pool: " << p.getPoolTiles().size() << endl;
+			for (char c : p.getPoolTiles())
+				cout << c << endl;
+		}
+		if (j == 2 && p.getPoolTiles().size() != 0) players[playerId - 1].drawTilesFromPool(p, 2);
+		else if (j == 1 && p.getPoolTiles().size() != 0) players[playerId - 1].drawTilesFromPool(p, 1);
+	}
+	else {
+		if (players[playerId - 1].getTiles.size() == 0)
+			break;
+		if (p.getPoolTiles().size() != 0)
+			players[playerId - 1].reshufleTiles(p);
+		else {
+			cout << endl << "No available plays and no pool to pick up from!" << endl;
+			Sleep(500);
+		}
+	}
+}
+
+bool Board::canPlay(Player p)
+{
+	for (string coord : coords) {
+		for (char tile : players[p.getId() - 1].getTiles()) {
+			if (tile == m[coord]) {
+				return 1;
+			}
+		}
+	}
 	return 0;
 }
 
@@ -186,3 +285,5 @@ void Board::setPlayers(vector<Player> p)
 {
 	players = p;
 }
+
+

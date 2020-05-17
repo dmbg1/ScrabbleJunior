@@ -7,6 +7,7 @@
 #include <sstream>
 #include "gui.h"
 #include "Player.h"
+#include "InputManagement.h"
 
 using namespace std;
 
@@ -23,6 +24,8 @@ public:
 	void showPlayersTiles() const;
 	void showBoard();
 	bool playersHavePieces() const;
+	void gameTurn(int playerId, Pool& p);
+	bool canPlay(Player p);
 private:
 	int size;
 	vector<string> words;

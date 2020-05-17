@@ -6,40 +6,68 @@ Player::Player(int pId)
 	score = 0;
 }
 
-void Player::reshufleTwoTiles(Pool& p)
+void Player::reshufleTiles(Pool& p)
 {
 	int tile1, tile2;
-	cout << "Choose two of your tiles to reshufle\n" << endl;
-	cout << "__________________________________________________\n" << endl;
-	for (int i = 0; i < tiles.size(); i++)
+	if(p.getPoolTiles().size() >= 2)
 	{
-		cout << i + 1 << " - " << tiles[i] << endl;
-	}
-
-	while (1)
-	{
-		cout << endl << "Tile 1 : ";
-		cin >> tile1;
-		if (tile1 < 1 && tile1 > tiles.size() + 1 && !isdigit(tile1)) {
-			cout << endl << "Invalid tile number" << endl;
-			continue;
+		cout << endl << "Choose two of your tiles to reshufle\n" << endl;
+		cout << "__________________________________________________\n" << endl;
+		for (int i = 0; i < tiles.size(); i++)
+		{
+			cout << i + 1 << " - " << tiles[i] << endl;
 		}
-		cout << endl << "Tile 2 : ";
-		cin >> tile2;
-		if (tile2 < 1 && tile2 > tiles.size() + 1 && !isdigit(tile2) && tile2 == tile1) {
-			cout << endl << "Invalid tile number" << endl;
-			continue;
+
+		while (1)
+		{
+			cout << endl << "Tile 1 : ";
+			cin >> tile1;
+			if (tile1 < 1 && tile1 > tiles.size() + 1 && !isdigit(tile1)) {
+				cout << endl << "Invalid tile number" << endl;
+				continue;
+			}
+			cout << endl << "Tile 2 : ";
+			cin >> tile2;
+			if (tile2 < 1 && tile2 > tiles.size() + 1 && !isdigit(tile2) && tile2 == tile1) {
+				cout << endl << "Invalid tile number" << endl;
+				continue;
+			}
+			break;
 		}
-		break;
+
+		p.addTileToPool(tiles[tile1 - 1]);
+		p.addTileToPool(tiles[tile2 - 1]);
+
+		eraseTile(tile1 - 1);
+		eraseTile(tile2 - 1);
+
+		drawTilesFromPool(p, 2);
 	}
+	else if (p.getPoolTiles().size() == 1) {
+		cout << "Choose one of your tiles to reshufle (nly one available in pool)\n" << endl;
+		cout << "__________________________________________________\n" << endl;
+		for (int i = 0; i < tiles.size(); i++)
+		{
+			cout << i + 1 << " - " << tiles[i] << endl;
+		}
 
-	p.addTileToPool(tile1);
-	p.addTileToPool(tile2);
+		while (1)
+		{
+			cout << endl << "Tile: ";
+			cin >> tile1;
+			if (tile1 < 1 && tile1 > tiles.size() + 1 && !isdigit(tile1)) {
+				cout << endl << "Invalid tile number" << endl;
+				continue;
+			}
+			break;
+		}
 
-	tiles.erase(tiles.begin() + tile1 - 1);
-	tiles.erase(tiles.begin() + tile2 - 1);
+		p.addTileToPool(tiles[tile1 - 1]);
 
-	drawTilesFromPool(p, 2);
+		eraseTile(tile1 - 1);
+
+		drawTilesFromPool(p, 1);
+	}
 }
 
 void Player::addTile(char t)
@@ -49,7 +77,7 @@ void Player::addTile(char t)
 
 void Player::showTiles()
 {
-	cout << "Player " << id << " tiles: ";
+	cout << "Player " << id << " tiles with score = " << score << " : ";
 	if (id == 1)
 		setcolor(BLUE);
 	else if (id == 2)
@@ -96,7 +124,22 @@ void Player::drawTilesFromPool(Pool &pool, int n)
 	}
 }
 
-void Player::setTilesInBoard(string key, char c)
+void Player::addTilesInBoard(string key, char c)
 {
 	tilesInBoard[key] = c;
+}
+
+void Player::incrementScore()
+{
+	score++;
+}
+
+void Player::eraseTile(int idx)
+{
+	tiles.erase(tiles.begin() + idx);
+}
+
+int Player::getScore() const
+{
+	return score;
 }
