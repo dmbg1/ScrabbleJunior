@@ -19,10 +19,11 @@ int main() {
 	Pool pool(board);
 	playerNumberInput(nPlayers);
 	
-	cout << nPlayers << endl;
-	for (int i = 1; i <= nPlayers; i++)
+	for (int i = 1; i <= nPlayers; i++) {
 		players.push_back(Player(i));
-
+		pool.givePieces(players[i - 1]);
+		players[i - 1].showTiles();
+	}
 
 	return 0;
 }

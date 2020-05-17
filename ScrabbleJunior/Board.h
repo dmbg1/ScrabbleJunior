@@ -13,15 +13,17 @@ class Board
 {
 public:
 	void readBoardFile();
-	vector<string> getWords();
+	vector<char> getChars();
+	vector<string> getCoords();
 	map <string, char> getM();
-	void mapBoard();
+	void mapBoard(vector<string> keys);
 	void showBoard();
 private:
 	int size;
 	vector<string> words;
 	vector<string> coords;
 	vector<char> oris;
+	vector<char> chars; //contains the chars on the board (useful to pass to the pool)
 	map<string, char> m;
 };
 

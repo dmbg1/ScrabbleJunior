@@ -62,14 +62,19 @@ void Board::readBoardFile() {
 			words.push_back(word);
 		}
 		file.close();
-		mapBoard();
+		mapBoard(coords);
 		break;
 	}
 }
 
-vector<string> Board::getWords()
+vector<char> Board::getChars()
 {
-	return words;
+	return chars;
+}
+
+vector<string> Board::getCoords()
+{
+	return coords;
 }
 
 map<string, char> Board::getM()
@@ -77,23 +82,29 @@ map<string, char> Board::getM()
 	return m;
 }
 
-void Board::mapBoard()
+void Board::mapBoard(vector<string> keys)
 {
 	for (int i = 0; i < words.size(); i++) {
 		if (oris[i] == 'H') {
 			for (int j = 0; j < words[i].size(); j++) {
-				m[coords[i]] = toupper(words[i][j]);
-				coords[i][1]++;
+				if (m[keys[i]] == NULL) {
+					m[keys[i]] = toupper(words[i][j]);
+					chars.push_back(m[keys[i]]);
+				}
+				keys[i][1]++;
 			}
-			coords[i][1] = coords[i][1] - words[i].size();
+			keys[i][1] = keys[i][1] - words[i].size();
 		}
 		else if (oris[i] == 'V') {
 
 			for (int j = 0; j < words[i].size(); j++) {
-				m[coords[i]] = toupper(words[i][j]);
-				coords[i][0]++;
+				if (m[keys[i]] == NULL) {
+					m[keys[i]] = toupper(words[i][j]);
+					chars.push_back(m[keys[i]]);
+				}
+				keys[i][0]++;
 			}
-			coords[i][0] = coords[i][0] - words[i].size();
+			keys[i][0] = keys[i][0] - words[i].size();
 		}
 	}
 }
