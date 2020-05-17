@@ -20,12 +20,12 @@ public:
 	map <string, char> getM() const;
 	vector<Player> getPlayers() const;
 	void setPlayers(vector<Player> p);
-	void mapBoard(vector<string> keys);
+	void mapBoard(vector<string> keys);	
 	void showPlayersTiles() const;
 	void showBoard();
-	bool playersHavePieces() const;
-	void gameTurn(int playerId, Pool& p);
-	bool canPlay(Player p);
+	bool playersHavePieces() const;	//Functions that checks if any of the players have pieces 
+	void gameTurn(int playerId, Pool& p); //Function that treats player turns
+	bool canPlay(Player p);	//Function that checks if it is possible for a player to make a move
 private:
 	int size;
 	vector<string> words;
