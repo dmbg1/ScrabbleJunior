@@ -28,9 +28,9 @@ void Board::readBoardFile() {
 
 		getline(file, line);
 
-		if (!isdigit(line[0]) || !isdigit(line[1]))
+		if (!isdigit(line[0]))
 		{
-			cout << "The file is corrupted" << endl;
+			cout << "The file is corrupted1" << endl;
 			continue;
 		}
 		a = line[0];
@@ -43,7 +43,7 @@ void Board::readBoardFile() {
 
 			if (!isupper(line[0]) || !islower(line[1]) || !isspace(line[2]) || !isalpha(line[3]) || !isspace(line[4]) || !isalpha(line[5]))
 			{
-				cout << "The file is corrupted" << endl;
+				cout << "The file is corrupted2" << endl;
 				continue;
 			}
 
