@@ -38,6 +38,14 @@ void Player::reshufleTiles(Pool& p)
 		p.addTileToPool(tiles[tile1 - 1]);
 		p.addTileToPool(tiles[tile2 - 1]);
 
+		if (tile1 < tile2)
+		{
+			int d;
+			d = tile1;
+			tile1 = tile2;
+			tile2 = d;
+		}
+
 		eraseTile(tile1 - 1);
 		eraseTile(tile2 - 1);
 
