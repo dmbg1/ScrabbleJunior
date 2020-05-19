@@ -1,76 +1,42 @@
-#include <iostream>
 #include "Player.h"
 #include "InputManagement.h"
 #include "Board.h"
 #include "Pool.h"
+#include "outputs.h"
 
 using namespace std;
 
 int main() {
-	int nPlayers;
-	vector <Player> players;
-	Board board;
+	int nPlayers; // Number of players
+	Board board;	// Board where the game will be played
 
 	board.readBoardFile();
-	Sleep(500);
-	clrscr();
-	board.showBoard();
+
+	// Drawing the board many times in main and other parts of the code to refresh its view
+	drawBoard(board); 
 	
+	// Filling the pool with board's mapped characters
 	Pool pool(board.getChars());
+	
 	playerNumberInput(nPlayers);
 
-	Sleep(500);
-	clrscr();
-
-	board.showBoard();
+	drawBoard(board);
 	cout << endl;
 	
-	for (int i = 1; i <= nPlayers; i++) {
-		players.push_back(Player(i));
-		players[i - 1].drawTilesFromPool(pool, 7);
-	}
+	board.addPlayers(nPlayers, pool);
 
-	board.setPlayers(players);
-	board.showPlayersTiles();
-	cout << endl << "Tiles in pool: " << pool.getPoolTiles().size() << endl;
+	drawGameInfo(board, pool);
 
-	//GAME START
-
-
+	// Game Start :
 	while (board.playersHavePieces())
 	{
 		for (Player player : board.getPlayers())
-		{
 			board.gameTurn(player.getId(), pool);
-			Sleep(500);
-			clrscr();
-			board.showBoard();
-			board.showPlayersTiles();
-			cout << endl << "Tiles in pool: " << pool.getPoolTiles().size() << endl;
-		}
 	}
 
-	Sleep(500);
-	clrscr();
-	board.showBoard();
+	drawBoard(board);
 
-	vector<int> winners; //Contains ids of winners/winner;
-	int maxScore = -1;
-	int maxScorePlayerId = -1;
-	for (Player player : board.getPlayers()) {
-		if (player.getScore() > maxScore) {
-			maxScore = player.getScore();
-			maxScorePlayerId = player.getId();
-			winners.clear();
-			winners.push_back(player.getId());
-		}
-		else if (player.getScore() == maxScore)
-			winners.push_back(player.getId());
-	}
-	if (winners.size() > 1)
-		cout << "Winners with " << maxScore << " points:" << endl;
-	for (int winner : winners)
-		cout << "Player " << board.getPlayers()[winner - 1].getId() << endl;
+	showWinners(board);
 
 	return 0;
 }

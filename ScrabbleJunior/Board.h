@@ -1,8 +1,5 @@
 #pragma once
-#include <vector>
-#include <map>
 #include <string>
-#include <iostream>
 #include <fstream>
 #include <sstream>
 #include "gui.h"
@@ -14,25 +11,28 @@ using namespace std;
 class Board
 {
 public:
-	void readBoardFile();
+	void readBoardFile(); // Reads a board file and saves the information it gives
 	vector<char> getChars() const;
 	vector<string> getCoords() const;
 	map <string, char> getM() const;
 	vector<Player> getPlayers() const;
-	void setPlayers(vector<Player> p);
-	void mapBoard(vector<string> keys);	
-	void showPlayersTiles() const;
-	void showBoard();
-	bool playersHavePieces() const;	//Functions that checks if any of the players have pieces 
-	void gameTurn(int playerId, Pool& p); //Function that treats player turns
+	void addPlayers(const int n, Pool& pool);	// Adds n players and makes them draw 7 pieces from pool (Starting conditions)
+	void mapBoard(vector<string> keys);	// Maps the board (fills m map)
+	void showPlayersTiles() const; // Shows player Tiles
+	void showBoard();	// Shows board
+	bool playersHavePieces() const;	/* Checks if any of the players have pieces and returns 1 if at least one player has one piece 
+									(keeps the game going) */
+	void gameTurn(int playerId, Pool& p); // Treats player turns
 	bool canPlay(Player p);	//Function that checks if it is possible for a player to make a move
+
 private:
-	int size;
-	vector<string> words;
-	vector<string> coords; //will be useful for keeping track of the moves players can make
-	vector<char> oris;
-	vector<char> chars; //contains the chars on the board (useful to pass to the pool)
-	map<string, char> m;
-	vector<Player> players;
+	int size;	// board size
+	vector<string> words;	// words on the board
+	vector<string> coords; /* will be useful for keeping track of the moves players can make (always have the coords of each word
+						   where players can put a tile) */
+	vector<char> oris;	// gives the orientations of each word
+	vector<char> chars;	// contains the chars on the board (useful to pass to the pool tiles)
+	map<string, char> m;	// contains the coordinates of each letter in the board	
+	vector<Player> players;	// contains all the players using the board to play
 };
 

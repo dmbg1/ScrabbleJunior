@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(int pId)
+Player::Player(const int pId)
 {
 	id = pId;
 	score = 0;
@@ -44,7 +44,8 @@ void Player::reshufleTiles(Pool& p)
 		drawTilesFromPool(p, 2);
 	}
 	else if (p.getPoolTiles().size() == 1) {
-		cout << "Choose one of your tiles to reshufle (nly one available in pool)\n" << endl;
+
+		cout << "Choose one of your tiles to reshufle (only one available in pool)\n" << endl;
 		cout << "__________________________________________________\n" << endl;
 		for (int i = 0; i < tiles.size(); i++)
 		{
@@ -70,7 +71,7 @@ void Player::reshufleTiles(Pool& p)
 	}
 }
 
-void Player::addTile(char t)
+void Player::addTile(const char t)
 {
 	tiles.push_back(t);
 }
@@ -110,23 +111,27 @@ map<string, char> Player::getTilesPutInBoard() const
 	return tilesInBoard;
 }
 
-void Player::drawTilesFromPool(Pool &pool, int n)
+void Player::drawTilesFromPool(Pool &pool, const int n)
 {
 	int idx;  //index to be removed from the pool tiles and added to the player tiles
+
 	srand(time(NULL));
 
 	for (int i = 0; i < n; i++) {
+	
 		if (pool.getPoolTiles().size() == 0)
 			break;
+		
 		idx = rand() % pool.getPoolTiles().size();
+		
 		addTile(pool.getPoolTiles()[idx]);
 		pool.removeTileFromPool(idx);
 	}
 }
 
-void Player::addTilesInBoard(string key, char c)
+void Player::addTileInBoard(const string coord, const char tile)
 {
-	tilesInBoard[key] = c;
+	tilesInBoard[coord] = tile;
 }
 
 void Player::incrementScore()
@@ -134,7 +139,7 @@ void Player::incrementScore()
 	score++;
 }
 
-void Player::eraseTile(int idx)
+void Player::eraseTile(const int idx)
 {
 	tiles.erase(tiles.begin() + idx);
 }

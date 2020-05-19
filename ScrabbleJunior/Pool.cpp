@@ -1,6 +1,6 @@
 #include "Pool.h"
 
-Pool::Pool(vector<char> tiles)
+Pool::Pool(const vector<char> tiles)
 {
 	pool_tiles = tiles;
 }
@@ -10,11 +10,11 @@ vector<char> Pool::getPoolTiles() const
 	return pool_tiles;
 }
 
-void Pool::addTileToPool(char c)
+void Pool::addTileToPool(const char tile)
 {
-	pool_tiles.push_back(c);
+	pool_tiles.push_back(tile);
 }
 
-void Pool::removeTileFromPool(int idx) {
+void Pool::removeTileFromPool(const int idx) {
 	pool_tiles.erase(pool_tiles.begin() + idx);
 }

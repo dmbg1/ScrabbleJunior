@@ -1,11 +1,13 @@
 #pragma once
 #include <iostream>
-#include <sstream>
-#include <string>
-#include <algorithm> 
 
 using namespace std;
-void playerNumberInput(int& nPlayers);
+
+// Treats number of players input 
+void playerNumberInput(int& nPlayers); 
+
+// Treats coordinate inputs
 string coordInput();
 
-int readNumber(string msg);
+// Treats tile number input
+int tileInput(const string msg, const int maxTile);

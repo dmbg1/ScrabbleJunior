@@ -1,8 +1,6 @@
 #pragma once
 
-#include <vector>
 #include <map>
-#include <iostream>
 #include "Pool.h"
 #include "gui.h"
 
@@ -11,22 +9,22 @@ using namespace std;
 class Player
 {
 public:
-	Player(int pId);
-	void reshufleTiles(Pool &p);	//Function that reshufles two or 1 of the tiles of the players according to the disponibility of the pool
-	void addTile(char t);
-	void showTiles();	//function that shows player's tiles
+	Player(const int pId);
+	void reshufleTiles(Pool &p);	// Reshufles two or 1 of the tiles of the players according to the disponibility of the pool
+	void addTile(const char t);	// Adds a new tile to the player's set
+	void showTiles();	// Shows player's tiles
 	int getId() const;
 	vector<char> getTiles() const;
-	map<string, char> getTilesPutInBoard() const; //gets tilesInBoard
-	void drawTilesFromPool(Pool& pool, int n);
-	void addTilesInBoard(string key, char c);	//inserts the pair {key, c} to the map tilesInBoard
+	map<string, char> getTilesPutInBoard() const;	// Gets tilesInBoard
+	void drawTilesFromPool(Pool& pool, const int n);	// Draws n tiles from pool
+	void addTileInBoard(const string coord, const char tile);	// Used to add a tile to the board in a certain coord
 	void incrementScore();
-	void eraseTile(int idx);	//Erases value in index idx of the player's tiles
+	void eraseTile(const int idx);	// Erases value in index idx of the player's tiles
 	int getScore() const;
 private:
-	vector<char> tiles;
-	map<string, char> tilesInBoard; //Contains the tiles that the player placed in the board
-	int id;
+	vector<char> tiles;	// Set of player tiles
+	map<string, char> tilesInBoard; // Contains the tiles that the player has already placed in the board
+	int id;	// Player identifier 
 	int score;
 };
 

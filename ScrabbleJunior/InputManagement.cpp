@@ -57,66 +57,30 @@ string coordInput()
 	return key;
 }
 
-int readNumber(string msg)
+int tileInput(const string msg, const int maxTile)
 {
-	string line;
-	int num = 0;
-	bool error = false;
+	int num;
 
-	do
+	while (1)
 	{
 		cout << msg;
-		getline(cin, line);
+		cin >> num;
 
-		error = any_of(line.begin(), line.end(), ::isalpha); //Ver se tem alguma letra
-
-		if (error)
-			cout << "Invalid Input. Can not have letters." << endl;
-
-		if (!error && line == "") {
-			error = true;
-			cout << "Empty Input. " << endl;
+		if (cin.fail() || cin.peek() != '\n') {
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << "Invalid input" << endl;
+			continue;
+		}
+		
+		if (num > maxTile || num < 1) {
+			cout << "That tile doesn't exist" << endl;
+			continue;
 		}
 
-		if (!error) {
-			for (auto x : line) {
-				if (isspace(x)) {
-					error = true;
-					break;
-				}
-			}
-			if (error)
-				cout << "Invalid Input. Can not have spaces." << endl;
-		}
+		break;
+	}
 
-		if (!error) {
-			try {
-				num = stoi(line);
-			}
-			catch (invalid_argument&) { //Ver se tem caracter especial
-				error = true;
-				cout << "Invalid Input. Can not have special characters." << endl;
-			}
-			catch (out_of_range&) { //Ver se o numero e demasiado grande
-				error = true;
-				cout << "Invalid Input. Number is to big." << endl;
-			}
-		}
-
-		if (!error && line.size() != to_string(stoi(line)).size()) {
-			for (auto x : line) {
-				if (ispunct(x)) {
-					error = true;
-					break;
-				}
-			}
-			if (error)
-				cout << "Invalid Input. Can not have special characters." << endl;
-		}
-
-	} while (error);
-
-	num = stoi(line);
 	return num;
 }
 
