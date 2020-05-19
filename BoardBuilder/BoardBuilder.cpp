@@ -63,10 +63,11 @@ int main() {
 				clrscr();
 			}
 
-			board.WriteToFile();
+			board.createBoardFile();
 
 			clrscr();
 		}
 	} while (op != 0);
+
 	return 0;
 }

@@ -59,7 +59,7 @@ void Board::showBoard() {
 	}
 }
 
-void Board::readFile(int wordsnum)
+void Board::readFile(const int wordsnum)
 {
 	int number_of_lines = 109581;
 
@@ -75,9 +75,6 @@ void Board::readFile(int wordsnum)
 	// shuffle the line_indices:
 	shuffle(begin(line_indices), end(line_indices), eng);
 
-	int number_of_lines_to_select = wordsnum;
-	//assert(number_of_lines_to_select <= number_of_lines);
-
 	string line;
 	ifstream file("WORDS.TXT");
 
@@ -85,7 +82,7 @@ void Board::readFile(int wordsnum)
 
 	cout << endl << "Selected words: " << endl;
 	while (getline(file, line)) {
-		for (int i = 0; i < number_of_lines_to_select; ++i) {
+		for (int i = 0; i < wordsnum; ++i) {
 			if (line_number == line_indices[i]) {
 				cout << line << endl;
 				words.push_back(line);
@@ -205,7 +202,7 @@ bool Board::isAddable(string word, char orientation, string key) {
 	return true;
 }
 
-void Board::WriteToFile()
+void Board::createBoardFile() const
 {
 	string strsize = to_string(size) + " x " + to_string(size);
 	ofstream file;
@@ -213,8 +210,6 @@ void Board::WriteToFile()
 
 	cout << endl << "Chose a name to the File:" << endl;
 	cin >> filename;
-
-	cin.ignore(1);
 
 	file.open(filename);
 
