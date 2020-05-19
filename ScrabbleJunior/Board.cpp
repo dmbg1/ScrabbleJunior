@@ -262,20 +262,22 @@ void Board::gameTurn(int playerId, Pool& p)
 
 					if (coordinate == coord) {	// Available coordinate
 						validPlay = 1;
+
+						addTileInBoard(coordinate, playerTile);
 						players[playerId - 1].addTileInBoard(coordinate, playerTile);
 
 						if (oris[i] == 'H') {
 							coords[i][1]++;
 
 							//incrementing the coordinate horizontally until the next empty/available spot
-							while (players[playerId - 1].getTilesPutInBoard()[coords[i]] != NULL)	
+							while (tilesInBoard[coords[i]] != NULL)	
 								coords[i][1]++;
 						}
 						else if (oris[i] == 'V') {
 							coords[i][0]++;
 
 							//incrementing the coordinate vertically until the next empty/available spot
-							while (players[playerId - 1].getTilesPutInBoard()[coords[i]] != NULL)
+							while (tilesInBoard[coords[i]] != NULL)
 								coords[i][0]++;
 						}
 
@@ -350,4 +352,8 @@ bool Board::canPlay(Player p)
 	return 0;
 }
 
+void Board::addTileInBoard(const string coord, const char tile)
+{
+	tilesInBoard[coord] = tile;
+}
 

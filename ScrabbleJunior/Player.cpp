@@ -20,15 +20,10 @@ void Player::reshufleTiles(Pool& p)
 
 		while (1)
 		{
-			cout << endl << "Tile 1 : ";
-			cin >> tile1;
-			if (tile1 < 1 && tile1 > tiles.size() + 1 && !isdigit(tile1)) {
-				cout << endl << "Invalid tile number" << endl;
-				continue;
-			}
-			cout << endl << "Tile 2 : ";
-			cin >> tile2;
-			if (tile2 < 1 && tile2 > tiles.size() + 1 && !isdigit(tile2) && tile2 == tile1) {
+			tile1 = tileInput("Tile1 : ", tiles.size());
+
+			tile2 = tileInput("Tile2 : ", tiles.size());
+			if (tile2 == tile1) {
 				cout << endl << "Invalid tile number" << endl;
 				continue;
 			}
@@ -60,17 +55,8 @@ void Player::reshufleTiles(Pool& p)
 			cout << i + 1 << " - " << tiles[i] << endl;
 		}
 
-		while (1)
-		{
-			cout << endl << "Tile: ";
-			cin >> tile1;
-			if (tile1 < 1 && tile1 > tiles.size() + 1 && !isdigit(tile1)) {
-				cout << endl << "Invalid tile number" << endl;
-				continue;
-			}
-			break;
-		}
-
+		tile1 = tileInput("Tile", tiles.size());
+			
 		p.addTileToPool(tiles[tile1 - 1]);
 
 		eraseTile(tile1 - 1);

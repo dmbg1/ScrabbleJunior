@@ -3,6 +3,7 @@
 #include <map>
 #include "Pool.h"
 #include "gui.h"
+#include "InputManagement.h"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ public:
 	int getScore() const;
 private:
 	vector<char> tiles;	// Set of player tiles
-	map<string, char> tilesInBoard; // Contains the tiles that the player has already placed in the board
+	map<string, char> tilesInBoard; // Contains the tiles that the player has already placed in the board (important to show players colors in board drawing
 	int id;	// Player identifier 
 	int score;
 };
