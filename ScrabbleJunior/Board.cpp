@@ -322,7 +322,10 @@ void Board::gameTurn(int playerId, Pool& p)
 	else {
 
 		if (p.getPoolTiles().size() != 0)	// No available plays and pool is not empty so reshufle pieces 
+		{
+			cout << endl << "Player " << playerId << " has no possible plays.";
 			players[playerId - 1].reshufleTiles(p);
+		}
 		else {	//  No available plays and pool is empty so skip turn
 			cout << endl << "No available plays and no tiles in pool" << endl;
 			Sleep(500);
